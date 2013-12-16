@@ -28,7 +28,7 @@ Erste Tests:
 Starten des Programms mittels
 gs progname
 
-Im gs-prompt dann: read 
-	Liest input.txt und schreibt das Zeugs dann mal auf den stack
+Im gs-prompt dann einfach den Befehl "read" eingeben.
+Liest input.txt und schreibt das Zeugs dann mal auf den stack
 
 
