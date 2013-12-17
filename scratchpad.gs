@@ -16,7 +16,6 @@
 
 % Read input.txt and create internal data structures
 % internal data structures as dictionaries are:
-% TODO IST DAS SO? Scheiß Zeugs!!!
 % Q: list of all nodes (in the beginning)
 % distance: element at position n in the list gives the distance of node n to the startnode
 %			initializes with INFINITE (except startnode. This one is 0)
@@ -31,6 +30,9 @@
 	read_nodes
 	read_start_end_node
 	read_distances
+% TODO
+%	init_data
+%	do_dijskstra
 } bind def
 
 
@@ -49,9 +51,10 @@
 		is_comment_line { pop }				% do nothing
 		{
 			% parse the line
-			% TODO
 			print_line			% just to check...
 			( ) split 			% array of nodes
+			% store in dictionary
+			/Q exch store	% store Q-list
 		} ifelse
 	} loop
 	(\n) print
@@ -91,9 +94,10 @@
 		is_empty_line { pop exit } if		% exit block 1
 		is_comment_line { pop }				% do nothing
 		{
-			% parse the line
-			% TODO
 			print_line			% just to check...
+			( ) split
+			dup /BEGIN exch 0 get store
+			/END exch 1 get store
 		} ifelse
 	} loop
 	(\n) print
@@ -150,36 +154,24 @@
 } bind def
 
 
-
-% -------------------------------------
-
-/read {
-	% read cities, make array and put on userdict (key "Q"
-	userdict (Q)
-		infile 128 string readline pop % do not need the boolean
-		( )	split % delimiter
-	put % Q in userdict has list of cities/nodes
-			
-	%read first and last node
-	infile 128 string readline pop % do not need the boolean
-	( )	split
-	dup 1 get /GOAL exch def % goal-node
-	0 get /START exch def % start node
-
-	% each line "A B d" now says: the tow nodes are neighbours and the have distance d to each other
-	{ %loop
-		infile 128 string readline { %if
-		}
-		{ %else
-			infile closefile
-			pop exit	% exit the loop
-		} ifelse
-	} loop
-	% now we have on the stack each connection between two cities A B length
-} bind def
-
+% gets index of node in /Q
+% -1 if not in /Q
+/get_index { % (A) --> index
+	/COMP exch store	
+	0 1 /Q load length 1 sub
+	{	
+		dup
+		/Q load exch get /COMP load eq
+		{
+			exit
+		} { pop } ifelse
+	} for
+	-1
+} def
 
 % taken from stackoverflow
+% splits a string into tokens based on delimiter
+% string delimiter --> [ (tokens) ]
 /split {              % str del
     [ 3 1 roll        % [ str del
     {                 % [ ... str del
