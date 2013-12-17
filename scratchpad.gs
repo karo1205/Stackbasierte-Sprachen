@@ -55,6 +55,7 @@
 			( ) split 			% array of nodes
 			% store in dictionary
 			/Q exch store	% store Q-list
+			init_nodes
 		} ifelse
 	} loop
 	(\n) print
@@ -119,6 +120,7 @@
 			% parse the line
 			% TODO
 			print_line			% just to check...
+
 		} ifelse
 	} loop
 	(\n) print
@@ -126,6 +128,15 @@
 	% count 2 * dict begin 
 	% split % am stack: a b entf
 			
+} bind def
+
+% initializes the node-elements
+% each node is named like in the list above
+/init_nodes {
+/Q load {
+		% dirty... may have up to 10 edges
+		[ 10 array null ] store
+	} forall
 } bind def
 
 % if first character of the string begins is a comment put true on the stack

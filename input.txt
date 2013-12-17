@@ -1,7 +1,8 @@
 # File Format:
 # 1. Block: Knotenliste
-# 2. Block: Start- und Endknoten
-# 3. Block: Entfernungen zw. Knoten
+# 2. Block: Knotenkoordinaten
+# 3. Block: Start- und Endknoten
+# 4. Block: Entfernungen zw. Knoten
 #
 # Bloecke sind durch Leerzeilen getrennt
 #
