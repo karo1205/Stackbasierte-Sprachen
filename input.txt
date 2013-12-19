@@ -12,6 +12,7 @@ A B C D E F G
 # 2. Block
 # Jeder Knoten in einer Zeile. "Name" x-pos ypos
 # Knoten und Pos
+# Nur zur graphischen Ausgabe gedacht. Keine Verwendung in Algorithmus
 A 120 30
 B 160 60
 C 50 60

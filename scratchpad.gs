@@ -7,24 +7,26 @@
 %% some declarations
 %file to read from
 /infile (input.txt) (r) file def
-/outfile (%stdout) (w) file def
 
 %constants
 /INFINITE 99999 def
-/NULL -1 def
 /COMMENT 35 def %ASCII for '%'
 
 % Read input.txt and create internal data structures
 % internal data structures as dictionaries are:
 % Q: list of all nodes (in the beginning)
-% distance: element at position n in the list gives the distance of node n to the startnode
-%			initializes with INFINITE (except startnode. This one is 0)
-% predecessor: element at position n in the list gives the current predecessor of the node.
-%			initializes with NULL
+% node-list. Array with:
+%	array of edges
+%	distance to startnode
+%	predecessor-node (predecessor of the shortest path from nod to startnode
 
-% we also need:
-% a list of all neighbours of one node
-% a list of distances beween two nodes
+% edge
+%	array of end-node and weight (distance)
+
+% real example (from inputfile.txt) Node C would distance from A is 3
+% C has three "neighbors": F, D and A with the distances
+% /C = [[(F) 1][(D) 6][(A) 3] null 3]
+
 /read_all {
 	read_nodelist
 	read_nodes
@@ -34,6 +36,12 @@
 %	init_data
 %	do_dijskstra
 } bind def
+
+% the actual algorithm
+/dijkstra {
+% TODO!!!
+} bind def
+
 
 
 %---------------------------------------------------------------------------------------------
@@ -75,13 +83,13 @@
 		is_comment_line { pop }				% do nothing
 		{
 			% parse the line
-			% TODO
 			print_line			% just to check...
+			% TODO wenn wir zeichnen wollen, muessen wir die irgendwie speichern...			
+			pop % we do not need them now
 		} ifelse
 	} loop
 	(\n) print
-	% TODO wie speichern? Welche Strukturen?
-	
+	% TODO wie speichern? Welche Strukturen? --> output only...	
 } bind def
 
 % reads until first non-empty or uncommented line
@@ -97,12 +105,11 @@
 		{
 			print_line			% just to check...
 			( ) split
-			dup /BEGIN exch 0 get store
+			dup /START exch 0 get store
 			/END exch 1 get store
 		} ifelse
 	} loop
 	(\n) print
-	% TODO wie speichern? Welche Strukturen?
 } bind def
 
 % reads distances between two nodes
@@ -118,25 +125,49 @@
 		is_comment_line { pop }				% do nothing
 		{
 			% parse the line
-			% TODO
 			print_line			% just to check...
-
+			( ) split  
+			update_nodes_list
+			pop
 		} ifelse
 	} loop
 	(\n) print
-	% TODO wie speichern? Welche Strukturen --> ich versuchs mal mit einem dictionary
-	% count 2 * dict begin 
-	% split % am stack: a b entf
-			
+	init_start
 } bind def
 
 % initializes the node-elements
 % each node is named like in the list above
 /init_nodes {
 /Q load {
-		% dirty... may have up to 10 edges
-		[ 10 array null ] store
+		% array of edges (zero length), predecessor (null), distance (INFINITE)
+		[ 0 array null INFINITE ] store
 	} forall
+} bind def
+
+/update_nodes_list {
+	aload 4 -3 roll 3 -2 roll % array --> array dist node node
+	set_edge
+	aload 4 -3 roll 3 -2 roll exch % array array array --> array dist node node
+	set_edge
+} bind def
+
+/set_edge {	% dist (nodeto) (nodefrom)
+	userdict exch load 	% dist (nodeto) nodefrom
+	exch pop
+	3 1 roll exch		% nodefrom (nodeto) dist
+	/NEW 3 1 roll 2 array astore bind store
+	dup 0 get % dist edge-list
+	[ exch
+	{} forall NEW
+	]
+	0 exch put
+} bind def
+
+% sets the distance of startnode to 0
+/init_start {
+	userdict START load
+	2 0 put
+	pop
 } bind def
 
 % if first character of the string begins is a comment put true on the stack
