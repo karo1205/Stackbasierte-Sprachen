@@ -27,7 +27,7 @@
 % C has three "neighbors": F, D and A with the distances
 % /C = [[(F) 1][(D) 6][(A) 3] null 3]
 
-/read_all {
+/read_all { % ==>
 	read_nodelist
 	read_nodes
 	read_start_end_node
@@ -35,11 +35,32 @@
 } bind def
 
 % the actual algorithm
+% computes the shortest path for all nodes in Q
 /dijkstra {
-% TODO!!!
+	{% TODO!!!
+		get_next_node
+		dup remove_from_Q
+		% to be used when only distance to end-node	
+		% dup END eq {exit} if
+		update_neighbors
+		Q length 0 eq { exit } if
+	} loop
 } bind def
 
+% prints the path from START to END
+/print_path {
+	% TODO
+} bind def
 
+% gets name of node with shortest path of Q
+/get_next_node { % ==> (string)
+	% TODO
+} bind def
+
+% updates all neighbours of node (if in Q)
+/update_neighbors { % node ==> node
+	% TODO
+} bind def
 
 %---------------------------------------------------------------------------------------------
 % Helper functions
@@ -47,7 +68,7 @@
 % reads list of nodes  (one line)
 % node-formats: name1 name 2 .. namex
 % sparated by spaces
-/read_nodelist {
+/read_nodelist { % ==>
 	(The nodes\n) print
 	(=========\n) print
 	{
@@ -64,8 +85,6 @@
 		} ifelse
 	} loop
 	(\n) print
-	% TODO wie speichern? Welche Strukturen?
-	
 } bind def
 
 % reads list of nodes until empty line
@@ -86,7 +105,6 @@
 		} ifelse
 	} loop
 	(\n) print
-	% TODO wie speichern? Welche Strukturen? --> output only...	
 } bind def
 
 % reads until first non-empty or uncommented line
@@ -123,7 +141,7 @@
 		{
 			% parse the line
 			print_line			% just to check...
-			( ) split  
+			( ) split  			% [(node1) (node2) dist]
 			update_nodes_list
 			pop
 		} ifelse
@@ -141,6 +159,7 @@
 	} forall
 } bind def
 
+% updates the edge-list in the node
 /update_nodes_list {
 	aload 4 -3 roll 3 -2 roll % array --> array dist node node
 	set_edge
@@ -148,7 +167,8 @@
 	set_edge
 } bind def
 
-/set_edge {	% dist (nodeto) (nodefrom)
+% updates the edge-list in the node named by topmost node
+/set_edge {	% dist (nodeto) (nodefrom) ==> array
 	userdict exch load 	% dist (nodeto) nodefrom
 	exch pop
 	3 1 roll exch		% nodefrom (nodeto) dist
@@ -190,15 +210,29 @@
 % gets index of node in /Q
 % -1 if not in /Q
 /get_index { % elem --> index
-	/COMP exch store	
+	/COMP exch store
+	-1	
 	0 1 Q length 1 sub % 0 .. Q.length-1
 	{	
 		dup
 		Q exch get COMP eq
 		{
-			exit
+			exch pop exit % remove -1
 		} { pop } ifelse
 	} for
+} bind def
+
+% removes stringname from Q by
+% setting the value to null
+/remove_from_Q { % string ==>
+	get_index
+	dup -1 eq { exit } if
+	Q exch null put
+} bind def
+
+% checks if a given node is in Q
+/is_in_Q {	% string ==> bool
+	get_index -1 eq not
 } bind def
 
 % taken from stackoverflow
