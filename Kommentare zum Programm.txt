@@ -1,0 +1,40 @@
+Kommentare
+==========
+Idee: Datenstrukturen wie in Wikipedia in ein Dictionary geben
+---------------------------------------------
+Key			Value
+------------------
+Q 			(Liste der noch nichtbesuchten Knoten),	[(A) (B) .. (F)]					DONE
+abstand:	(Abstand des Knotens x zu Starknoten,	[U, U, ...U], wobei U="unendlich"
+voegaenger: (Vorgänger des Knotens x),				[null, null...]
+
+Abstände zw. Knoten:
+[(A) (B)]	Abstand
+
+Nachfolger von Knoten:
+(A)			[(B) (C) ...]
+
+Methoden:
+---------
+abstand_zwischen(a, b):
+ermittelt Abstand zw. a und b indem nachgesehen wird, ob entweder das Array
+[(a) (b)] oder das Array [(b) (a)] im dictionary drinnen ist
+
+init_abstand:
+initialisiert abstand-array
+
+init_vorgaenger:
+initialisiert vorgaenger-array
+
+
+Dictionalry-Befehle:
+=============================
+Neuer Eintrag in Dictionary:
+	key value store
+
+Eintrag aus Dictionary holen:
+	key load --> value
+
+
+ACHTUNG:
+Strings und Array werden als Referenzen gespeichert --> Achtung bei dup... Änderung in einem wirkensich auf andere aus

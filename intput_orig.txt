@@ -1,0 +1,38 @@
+# File Format:
+# 1. Block: Knotenliste
+# 2. Block: Knotenkoordinaten
+# 3. Block: Start- und Endknoten
+# 4. Block: Entfernungen zw. Knoten
+#
+# Bloecke sind durch Leerzeilen getrennt
+#
+# 1. Block: Eine Zeile mit allen beteiligten Knoten. Das macht die Sache einfacher...
+A B C D E F G
+
+# 2. Block
+# Jeder Knoten in einer Zeile. "Name" x-pos ypos
+# Knoten und Pos
+# Nur zur graphischen Ausgabe gedacht. Keine Verwendung in Algorithmus
+A 120 30
+B 160 60
+C 50 60
+D 160 110
+E 50 110
+F 130 160
+G 80 160
+
+# 3. Block: Start und Endknoten
+# Eine Zeile, zwei Eintraege
+A D
+
+# 4. Block: Entfernungen zwischen den Knoten
+# Entfernungen sind nicht-gerichtet
+A B 5
+A C 3
+A G 7
+B E 2
+C F 1
+C D 6
+D E 11
+E F 3
+G D 12

@@ -32,9 +32,6 @@
 	read_nodes
 	read_start_end_node
 	read_distances
-% TODO
-%	init_data
-%	do_dijskstra
 } bind def
 
 % the actual algorithm
@@ -172,7 +169,7 @@
 
 % if first character of the string begins is a comment put true on the stack
 % false otherwise
-/is_comment_line {	%string ==> string bool
+/is_comment_line {	% string ==> string bool
 	dup 0 get COMMENT eq
 } bind def
 
@@ -183,33 +180,26 @@
 } bind def
 
 % prints the topmost line to stdout
-/print_line { %string ==> 
+/print_line { %string ==> string
 	dup (\n) exch
 	(%stdout) (w) file exch writestring
 	(%stdout) (w) file exch writestring
 } bind def
 
-% puts index of node (string) to stack
-% NULL if not found
-/getindex { % array string getindex index
-	dup length	
-} bind def
-
 
 % gets index of node in /Q
 % -1 if not in /Q
-/get_index { % (A) --> index
+/get_index { % elem --> index
 	/COMP exch store	
-	0 1 /Q load length 1 sub
+	0 1 Q length 1 sub % 0 .. Q.length-1
 	{	
 		dup
-		/Q load exch get /COMP load eq
+		Q exch get COMP eq
 		{
 			exit
 		} { pop } ifelse
 	} for
-	-1
-} def
+} bind def
 
 % taken from stackoverflow
 % splits a string into tokens based on delimiter
