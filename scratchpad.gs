@@ -38,7 +38,7 @@
 % computes the shortest path for all nodes in Q
 /dijkstra {
 	{% TODO!!!
-		get_next_node
+		get_next_node % holt den String fuer den nächsten node
 		dup remove_from_Q
 		% to be used when only distance to end-node	
 		% dup END eq {exit} if
@@ -54,7 +54,13 @@
 
 % gets name of node with shortest path of Q
 /get_next_node { % ==> (string)
-	% TODO
+	/SMALEST INFINITE store
+	Q {
+		/NODE exch store
+		dup load 	% (node) node
+		2 get SMALEST le { /TORET NODE store } if	
+	} forall
+	TORET
 } bind def
 
 % updates all neighbours of node (if in Q)
