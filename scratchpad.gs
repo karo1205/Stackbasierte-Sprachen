@@ -43,7 +43,7 @@
 		% to be used when only distance to end-node	
 		% dup END eq {exit} if
 		update_neighbors
-		Q length 0 eq { exit } if
+		Q length 0 eq { exit } if % !!!! Geht so nicht
 	} loop
 } bind def
 
@@ -163,14 +163,13 @@
 /update_nodes_list {
 	aload 4 -3 roll 3 -2 roll % array --> array dist node node
 	set_edge
-	aload 4 -3 roll 3 -2 roll exch % array array array --> array dist node node
+	aload 4 -3 roll 3 -2 roll exch % array --> array dist node node
 	set_edge
 } bind def
 
 % updates the edge-list in the node named by topmost node
 /set_edge {	% dist (nodeto) (nodefrom) ==> array
-	userdict exch load 	% dist (nodeto) nodefrom
-	exch pop
+	load 	% dist (nodeto) nodefrom
 	3 1 roll exch		% nodefrom (nodeto) dist
 	/NEW 3 1 roll 2 array astore bind store
 	dup 0 get % dist edge-list
@@ -182,9 +181,8 @@
 
 % sets the distance of startnode to 0
 /init_start {
-	userdict START load
+	START load
 	2 0 put
-	pop
 } bind def
 
 % if first character of the string begins is a comment put true on the stack
@@ -225,9 +223,12 @@
 % removes stringname from Q by
 % setting the value to null
 /remove_from_Q { % string ==>
-	get_index
-	dup -1 eq { exit } if
-	Q exch null put
+	/COMP exch store	
+	[ Q { 
+		dup COMP eq {pop} if
+	} forall	
+	]
+	/Q exch store
 } bind def
 
 % checks if a given node is in Q
