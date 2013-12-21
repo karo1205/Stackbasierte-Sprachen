@@ -84,9 +84,12 @@
 				2 exch put		% set new distance
 				1 N_PRE put		% set predecessor
 				% pop
-			} if
+			} {
+				pop
+			} ifelse
 		} { 
 			pop % not in Q --> discard
+			pop
 		} ifelse
 	} forall
 } bind def
