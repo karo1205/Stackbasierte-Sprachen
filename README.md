@@ -28,7 +28,19 @@ Erste Tests:
 Starten des Programms mittels
 gs progname
 
-Im gs-prompt dann einfach den Befehl "read" eingeben.
+Im gs-prompt dann einfach den Befehl "read_all" eingeben.
 Liest input.txt und schreibt das Zeugs dann mal auf den stack
+
+Ausführen des Programms:
+========================
+1.) Starten von der Kommandozeile mit gs scratchpad.gs
+2.) Einlesen der Daten mit "read_all" vom gs-prompt
+3.) Ausführen des Algorithmus mit Eingabe von "dijkstra" im gs-prompt
+4.) (offen) Ausgabe des kürzesten Pfades
+
+Momentan gibts noch jede Menge Zeugs am stack. Weiß nicht genau, wo das herkommt.
+Dennoch werden alle Knoten korrekt berechnet. Einfach ausgeben mit "Knoten ==", also 
+z.B. "A ==" "B ==" ...
+Immer ohne Anführungsstricherln...
 
 

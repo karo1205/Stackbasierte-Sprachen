@@ -37,13 +37,13 @@
 % the actual algorithm
 % computes the shortest path for all nodes in Q
 /dijkstra {
-	{% TODO!!!
+	{
 		get_next_node % holt den String fuer den nächsten node
 		dup remove_from_Q
 		% to be used when only distance to end-node	
 		% dup END eq {exit} if
 		update_neighbors
-		Q length 0 eq { exit } if % !!!! Geht so nicht
+		Q length 0 eq { exit } if % bis Q leer
 	} loop
 } bind def
 
@@ -55,17 +55,40 @@
 % gets name of node with shortest path of Q
 /get_next_node { % ==> (string)
 	/SMALEST INFINITE store
-	Q {
-		/NODE exch store
-		dup load 	% (node) node
-		2 get SMALEST le { /TORET NODE store } if	
+	Q {  
+		dup /NODE exch store
+		load 	% (node) node
+		2 get dup SMALEST le 
+			{ /TORETURN NODE store /SMALEST exch store} 
+			{pop} ifelse	
+%		pop
 	} forall
-	TORET
+	TORETURN
 } bind def
 
 % updates all neighbours of node (if in Q)
-/update_neighbors { % node ==> node
-	% TODO
+% sourcenode as string on stack
+/update_neighbors { % (node) ==> 
+	dup /N_PRE exch store
+	load	% (node) ==> (node) node
+	dup 2 get /N_DIST exch store
+	0 get		% node ==> array
+	{
+		dup 0 get %targetnode
+		dup is_in_Q {
+			load dup dup % array targetnode
+			4 -1 roll 1 get N_DIST add	% compute distance
+			dup 3 1 roll
+			% is new distance smaller than already stored one?
+			exch 2 get lt {
+				2 exch put		% set new distance
+				1 N_PRE put		% set predecessor
+				% pop
+			} if
+		} { 
+			pop % not in Q --> discard
+		} ifelse
+	} forall
 } bind def
 
 %---------------------------------------------------------------------------------------------
@@ -148,6 +171,7 @@
 			% parse the line
 			print_line			% just to check...
 			( ) split  			% [(node1) (node2) dist]
+			dup dup 2 get cvi 2 exch put % replaces destance-string with integer
 			update_nodes_list
 			pop
 		} ifelse
