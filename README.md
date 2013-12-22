@@ -36,11 +36,11 @@ Ausführen des Programms:
 1.) Starten von der Kommandozeile mit gs scratchpad.gs
 2.) Einlesen der Daten mit "read_all" vom gs-prompt
 3.) Ausführen des Algorithmus mit Eingabe von "dijkstra" im gs-prompt
-4.) (offen) Ausgabe des kürzesten Pfades
+4.) Ausgabe des kürzesten Pfades:
+  a) print_path (Pfad zw. START und AND
+  b) (node) print_path_to_node (Pfad zw. START und node am stack)
 
 Momentan gibts noch jede Menge Zeugs am stack. Weiß nicht genau, wo das herkommt.
 Dennoch werden alle Knoten korrekt berechnet. Einfach ausgeben mit "Knoten ==", also 
 z.B. "A ==" "B ==" ...
 Immer ohne Anführungsstricherln...
-
-

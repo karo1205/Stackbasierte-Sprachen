@@ -49,7 +49,27 @@
 
 % prints the path from START to END
 /print_path {
-	% TODO
+	END print_path_to_node
+} bind def
+
+% prints path from node on stack to START
+/print_path_to_node {	% (s) ==> 
+	(--) exch 	% end-mark
+	{	
+		dup load 1 get
+		dup null eq { pop exit } if
+	} loop
+	print	% first node
+	{	
+		dup (--) eq
+		{
+			pop	% remove marker
+			exit
+		}
+		{ (==>) print print % arrow and next node
+		} ifelse
+	} loop
+	(\n) print
 } bind def
 
 % gets name of node with shortest path of Q
