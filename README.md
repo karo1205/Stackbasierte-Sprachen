@@ -34,6 +34,7 @@ Liest input.txt und schreibt das Zeugs dann mal auf den stack
 Ausführen des Programms:
 ========================
 1.) Starten von der Kommandozeile mit gs scratchpad.gs
+1a) Optional: Eingabe eines anderen input-files mit "get_file"
 2.) Einlesen der Daten mit "read_all" vom gs-prompt
 3.) Ausführen des Algorithmus mit Eingabe von "dijkstra" im gs-prompt
 4.) Ausgabe des kürzesten Pfades:

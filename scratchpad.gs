@@ -7,7 +7,6 @@
 %% some declarations
 %file to read from
 /infile (input.txt) (r) file def
-
 %constants
 /INFINITE 99999 def
 /COMMENT 35 def %ASCII for '%'
@@ -32,6 +31,7 @@
 	read_nodes
 	read_start_end_node
 	read_distances
+	infile closefile
 } bind def
 
 % the actual algorithm
@@ -54,19 +54,23 @@
 
 % prints path from node on stack to START
 /print_path_to_node {	% (s) ==> 
+	(Path with cumulative distances:\n) print
+	(===============================\n) print
 	(--) exch 	% end-mark
 	{	
-		dup load 1 get
+		dup load 
+		dup 2 get 3 string cvs exch 1 get %(s) (prev)
 		dup null eq { pop exit } if
 	} loop
-	print	% first node
+
+	exch print (/) print print% first node
 	{	
 		dup (--) eq
 		{
 			pop	% remove marker
 			exit
 		}
-		{ (==>) print print % arrow and next node
+		{ ( ==> ) print exch print (/) print print % arrow and next node
 		} ifelse
 	} loop
 	(\n) print
@@ -79,9 +83,13 @@
 		dup /NODE exch store
 		load 	% (node) node
 		2 get dup SMALEST le 
-			{ /TORETURN NODE store /SMALEST exch store} 
-			{pop} ifelse	
-%		pop
+			{ 
+				/TORETURN NODE store 
+				/SMALEST exch store
+			} 
+			{
+				pop
+			} ifelse	
 	} forall
 	TORETURN
 } bind def
@@ -103,7 +111,6 @@
 			exch 2 get lt {
 				2 exch put		% set new distance
 				1 N_PRE put		% set predecessor
-				% pop
 			} {
 				pop
 			} ifelse
@@ -117,6 +124,16 @@
 %---------------------------------------------------------------------------------------------
 % Helper functions
 %---------------------------------------------------------------------------------------------
+% asks for a filename to read the graph-def from
+/get_file {
+	(Please give filename for node defs\n) print
+	(%stdin) (r) file
+	128 string readline pop
+	/infile exch (r) file store
+} bind def
+
+
+
 % reads list of nodes  (one line)
 % node-formats: name1 name 2 .. namex
 % sparated by spaces
@@ -124,7 +141,7 @@
 	(The nodes\n) print
 	(=========\n) print
 	{
-		infile 128 string readline pop 	% do not need the boolean
+		infile 1024 string readline pop 	% do not need the boolean
 		is_empty_line { pop exit } if		% exit block 1
 		is_comment_line { pop }				% do nothing
 		{
@@ -146,7 +163,7 @@
 	(The nodes and their positions\n) print
 	(=============================\n) print
 	{
-		infile 128 string readline pop 	% do not need the boolean
+		infile 256 string readline pop 	% do not need the boolean
 		is_empty_line { pop exit } if		% exit block 1
 		is_comment_line { pop }				% do nothing
 		{
@@ -166,7 +183,7 @@
 	(Start- and Endnode\n) print
 	(==================\n) print
 	{
-		infile 128 string readline pop 	% do not need the boolean
+		infile 256 string readline pop 	% do not need the boolean
 		is_empty_line { pop exit } if		% exit block 1
 		is_comment_line { pop }				% do nothing
 		{
@@ -187,12 +204,12 @@
 	(Distances between nodes\n) print
 	(=======================\n) print
 	{
-		infile 128 string readline pop 	% do not need the boolean
+		infile 256 string readline pop 	% do not need the boolean
 		is_empty_line { pop exit } if		% exit block 1
 		is_comment_line { pop }				% do nothing
 		{
 			% parse the line
-			print_line			% just to check...
+%			print_line			% just to check...
 			( ) split  			% [(node1) (node2) dist]
 			dup dup 2 get cvi 2 exch put % replaces destance-string with integer
 			update_nodes_list
