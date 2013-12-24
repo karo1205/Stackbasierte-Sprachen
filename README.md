@@ -45,3 +45,11 @@ Momentan gibts noch jede Menge Zeugs am stack. Weiß nicht genau, wo das herkomm
 Dennoch werden alle Knoten korrekt berechnet. Einfach ausgeben mit "Knoten ==", also 
 z.B. "A ==" "B ==" ...
 Immer ohne Anführungsstricherln...
+
+Generator
+=========
+Starten des Generators:
+	ant run
+
+Die Parameter werden im Java-File in der main-Methode gesetzt (im Aufruf g.generate(..).
+
