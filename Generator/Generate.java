@@ -85,7 +85,7 @@ public class Generate {
 		}
 		
 		outline(s.toString());
-		outline ("#");		
+		outline ("");		
 	}
 	
 	private void generateBlock2() {
@@ -99,7 +99,9 @@ public class Generate {
 		int start = (int)(Math.random()*countNodes);
 		int end = (int)(Math.random()*countNodes);
 		outline(nodePrefix+start + " " + nodePrefix+end);
+		outline ("");
 	}
+
 	private void generateBlock4() {
 		outline(header4);
 
@@ -119,12 +121,6 @@ public class Generate {
 	public static void main(String[] args) {
 		Generate g = new Generate();
 		// Wenig Knoten, hoher Zusammenhalt
-		g.generate(25, 20, 0.75, "");
-		
-		// mittlere Knotenanzahl, geringer Zusammenhalt
-		g.generate(50, 40, 0.15, "");
-
-		// hohe Knotenanzahl, mittlerer Zusammenhalt
-		g.generate(50, 40, 0.5, "");
+		g.generate(100, 70, 0.1, "");
 }
 }
