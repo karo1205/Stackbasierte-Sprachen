@@ -28,6 +28,7 @@ A D
 # 4. Block: Entfernungen zwischen den Knoten
 # Entfernungen sind nicht-gerichtet
 A B 5
+# remove next one to get longer path...
 A C 3
 A G 7
 B E 2

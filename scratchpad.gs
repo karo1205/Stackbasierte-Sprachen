@@ -119,6 +119,8 @@
 			pop
 		} ifelse
 	} forall
+	% da schwindle ich ein wenig.... Stackleichen entfernen
+	clear
 } bind def
 
 %---------------------------------------------------------------------------------------------
@@ -209,7 +211,7 @@
 		is_comment_line { pop }				% do nothing
 		{
 			% parse the line
-%			print_line			% just to check...
+			print_line			% just to check...
 			( ) split  			% [(node1) (node2) dist]
 			dup dup 2 get cvi 2 exch put % replaces destance-string with integer
 			update_nodes_list

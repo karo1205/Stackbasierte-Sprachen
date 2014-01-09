@@ -1,0 +1,18 @@
+
+gs -dNODISPLAY scratchpad.gs
+
+get_file
+
+read_all
+
+dijkstra
+
+print_path 
+
+(node) print_path_to_node
+
+Dennoch werden alle Knoten korrekt berechnet. Einfach ausgeben mit "Knoten ==", also 
+z.B. "A ==" "B ==" ...
+
+
+
